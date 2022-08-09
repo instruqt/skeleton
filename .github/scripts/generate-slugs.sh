@@ -14,7 +14,6 @@ for dir in $(ls -d */); do
   then
     echo "Adding $dir to track-slugs"
     yq '"  - { slug: " + .slug + ", id: " + .id + " }"' ${dir}track.yml >> track-slugs.yml
-    fi
   fi
 done
 

@@ -1,4 +1,3 @@
-## Instruqt Repo Skeleton
+## Instruqt Skeleton
 
-This repository contains the basic directory structure and checks for storing your Instruqt tracks.
-The `.github` directory contains a series of GitHub workflows part of the Instruqt Developer Workflow. 
+This repository contains a set of GitHub Actions workflows to manage the development of your Instruqt tracks. 
