@@ -44,23 +44,21 @@ jobs:
       with:
         files: "${{ env.TRACK_DIR }}/track-slugs.yml"
 
-    # Needed for first commit of repository
-    - name: Generate temporary track-slugs.yml file
-      run: bash ./.github/scripts/generate-slugs.sh
-      if: steps.check_slugs.outputs.files_exists == 'false'
-
     - name: Create Matrix Data
       run: echo "TRACKS=$(yq -o j $TRACK_DIR/track-slugs.yml | jq tostring | sed -e 's/^"//' -e 's/"$//')" >> $GITHUB_ENV
+      if: steps.check_slugs.outputs.files_exists == 'true'
 
     - id: set-matrix
       run: echo "::set-output name=matrix::${{ env.TRACKS }}"
+      if: steps.check_slugs.outputs.files_exists == 'true'
 
     outputs:
+      slugs: ${{ steps.check_slugs.outputs.files_exists }}
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
   TestProdTracks:
     runs-on: ubuntu-latest
-    if: 
+    if: GetTrackSlugs.outputs.files_exists == 'true'
     needs: GetTrackSlugs
     strategy:
       matrix: ${{ fromJson(needs.GetTrackSlugs.outputs.matrix) }}
