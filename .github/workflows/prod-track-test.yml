@@ -58,7 +58,7 @@ jobs:
 
   TestProdTracks:
     runs-on: ubuntu-latest
-    if: GetTrackSlugs.outputs.files_exists == 'true'
+    if: needs.GetTrackSlugs.outputs.files_exists == 'true'
     needs: GetTrackSlugs
     strategy:
       matrix: ${{ fromJson(needs.GetTrackSlugs.outputs.matrix) }}
