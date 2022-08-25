@@ -28,6 +28,7 @@ on:
 jobs:
   PromoteTrack:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
 
       - name: Check out repository code
@@ -40,6 +41,9 @@ jobs:
 
       - name: Get Track ID
         run: echo "ID=$(TRACKNAME=${{ inputs.slug }} yq eval '.tracks[] | select(.slug == env(TRACKNAME) ) | .id' instruqt-tracks/track-slugs.yml)" >> $GITHUB_ENV
+
+      - name: Update file permissions
+        run: sudo chmod -R a+rwx ${{ env.TRACK_DIR }}/${{ inputs.slug }}
 
       - name: Promote dev tracks
         uses: ./.github/actions/track-promote
