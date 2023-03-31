@@ -24,7 +24,7 @@ on:
 jobs:
   CreateDevTrack:
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/master' || github.ref != 'refs/heads/main'
+    if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
     steps:
 
       - name: Check out repository code

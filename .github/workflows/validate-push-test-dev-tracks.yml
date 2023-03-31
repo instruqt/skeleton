@@ -74,7 +74,7 @@ jobs:
 
   TestDevTracks:
     runs-on: ubuntu-latest
-    if: ${{ needs.GetTracks.outputs.matrix != '[]' && needs.GetTracks.outputs.matrix != '' }}
+    if: ${{ needs.GetTracks.outputs.matrix != '[]' && needs.GetTracks.outputs.matrix != '' }} && github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
     needs: GetTracks
     strategy:
       matrix: ${{ fromJson(needs.GetTracks.outputs.matrix) }}

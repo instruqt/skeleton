@@ -25,7 +25,7 @@ on:
 jobs:
   PrepareTrackForPullRequest:
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/master' || github.ref != 'refs/heads/main'
+    if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
     permissions: write-all
     steps:
 
