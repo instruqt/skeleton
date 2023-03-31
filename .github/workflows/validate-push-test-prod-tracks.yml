@@ -43,7 +43,7 @@ jobs:
         }
 
         for t in $(ls -d $TRACK_DIR/*); do
-          if [[ $(skip_enabled($t)) == 'true' ]]; then
+          if [[ skip_enabled($t) == 'true' ]]; then
             echo "Skipping $t"
           else
             echo "Adding $t"
