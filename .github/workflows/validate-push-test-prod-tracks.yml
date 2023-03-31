@@ -59,6 +59,8 @@ jobs:
           fi
         done
 
+        echo $CI_TRACKS
+
         echo TRACKS="{\\\"tracks\\\":$($CI_TRACKS | jq -R -s -c 'split("\n")[:-1]' | sed 's/"/\\"/g')}" >> $GITHUB_ENV
         echo $GITHUB_ENV
         cat $GITHUB_ENV
