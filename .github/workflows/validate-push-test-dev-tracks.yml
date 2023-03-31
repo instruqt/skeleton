@@ -111,10 +111,3 @@ jobs:
         with:
           path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
         if: steps.validate-track.outcome == 'success'
-
-      - name: Delete Dev Track
-        id: delete-dev-track
-        uses: ./.github/actions/delete-track
-        with:
-          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}-dev
-        if: steps.test-track.outcome == 'success'

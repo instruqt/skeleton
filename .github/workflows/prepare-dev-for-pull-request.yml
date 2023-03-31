@@ -58,3 +58,9 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Creating PR for dev ${{ inputs.slug }} track
+
+      - name: Delete Dev Track
+        id: delete-dev-track
+        uses: ./.github/actions/delete-track
+        with:
+          path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}-dev
