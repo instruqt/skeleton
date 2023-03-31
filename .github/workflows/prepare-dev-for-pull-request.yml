@@ -37,17 +37,10 @@ jobs:
         with:
           path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}
 
-      # TODO: update this to get a list of track slugs that do not have the no-ci tag
-      - name: Enumerate Tracks and store in GITHUB_ENV
-        run: |
-          for track in $(ls -d ${{ env.TRACK_DIR }}/*/); do
-            echo "TRACKS+=($track)" >> $GITHUB_ENV
-          done
-
       - name: Update file permissions
         run: sudo chmod -R a+rwx ${{ env.TRACK_DIR }}/${{ inputs.slug }}
 
-      - name: Promote dev tracks
+      - name: Promote dev track
         uses: ./.github/actions/prepare-dev-for-pr
         with:
           path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}
