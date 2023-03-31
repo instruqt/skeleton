@@ -6,7 +6,7 @@
 # belong to the same Instruqt team.
 #
 ##############################################################################
-name: validate-push-test-dev-tracks
+name: test-dev-tracks
 
 env:
   # Set these values to match your environment. Your token should be 

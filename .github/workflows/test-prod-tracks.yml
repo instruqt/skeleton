@@ -7,7 +7,7 @@
 # to the same organization.
 #
 ##############################################################################
-name: validate-push-test-prod-tracks
+name: test-prod-tracks
 
 env:
   # Set these values to match your environment. Your token should be 
