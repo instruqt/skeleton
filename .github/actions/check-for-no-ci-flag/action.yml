@@ -1,4 +1,4 @@
-name: CI Check
+name: CI Enabled Check
 description: Pulls track tags from Instruqt to determine if "no-ci" tag is set
 inputs:
   id:

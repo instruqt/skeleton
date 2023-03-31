@@ -1,10 +1,10 @@
 ##############################################################################
 # Instruqt Github Actions Workflow
 #
-# This workflow will convert the provided track-slug into a DEV variant
+# This workflow will promote a DEV track back to its PROD version
 #
 ##############################################################################
-name: convert
+name: prepare-dev-for-pull-request
 
 env:
   INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
@@ -26,24 +26,35 @@ on:
       - '!master'
 
 jobs:
-  CreateDevTrack:
+  PromoteTrack:
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
 
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - name: Create dev track
-        uses: ./.github/actions/track-dev
+      - name: Pull latest track
+        uses: ./.github/actions/pull-track
         with:
           path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}
 
-      - name: Push dev tracks
-        uses: ./.github/actions/track-push
+      # TODO: update this to get a list of track slugs that do not have the no-ci tag
+      - name: Enumerate Tracks and store in GITHUB_ENV
+        run: |
+          for track in $(ls -d ${{ env.TRACK_DIR }}/*/); do
+            echo "TRACKS+=($track)" >> $GITHUB_ENV
+          done
+
+      - name: Update file permissions
+        run: sudo chmod -R a+rwx ${{ env.TRACK_DIR }}/${{ inputs.slug }}
+
+      - name: Promote dev tracks
+        uses: ./.github/actions/prepare-dev-for-pr
         with:
           path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}
 
       - name: Commit Changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Creating dev version of ${{ inputs.slug }}
+          commit_message: Promoting ${{ inputs.slug }} track

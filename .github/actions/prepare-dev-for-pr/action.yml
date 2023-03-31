@@ -1,4 +1,4 @@
-name: Track Promote
+name: Prepare Dev Track for Pull Request
 description: Prepares track for validate, push and test.
 inputs:
   path:
@@ -20,9 +20,6 @@ runs:
       sed -i '0,/^slug/{s/-dev//}' track.yml
       sed -i '0,/^title/{s/DEV - //}' track.yml
       sed -i 's/^- dev/- prod/g' track.yml
-
-      # Update the track ID to the original
-      sed -i 's/^id:.*/id: ${{ inputs.id }}/g' track.yml
 
       # Remove maintenance tag
       sed -i 's/^maintenance: true/maintenance: false/g' track.yml

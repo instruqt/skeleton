@@ -1,5 +1,5 @@
-name: Track Dev
-description: Converts track to a dev version for testing.
+name: Convert Prod Track to Dev Track
+description: Converts a production track to a dev version for testing.
 inputs:
   path:
     description: Path to the Instruqt track.
@@ -7,7 +7,7 @@ inputs:
 runs:
   using: composite
   steps:
-  - name: Create dev track
+  - name: Create dev track from prod track
     shell: bash
     run: |
       cd ${{ inputs.path }}
