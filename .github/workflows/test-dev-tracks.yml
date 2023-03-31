@@ -72,7 +72,7 @@ jobs:
   TestDevTracks:
     runs-on: ubuntu-latest
     # Ensures that you can't run this action on the main or master branch
-    if: ${{ needs.GetTracks.outputs.matrix != '[]' && needs.GetTracks.outputs.matrix != '' }} && github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
+    if: ${{ needs.GetTracks.outputs.matrix != '{"tracks":[""]}' && needs.GetTracks.outputs.matrix != '' }} && github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
     needs: GetTracks
     strategy:
       matrix: ${{ fromJson(needs.GetTracks.outputs.matrix) }}

@@ -74,6 +74,7 @@ jobs:
   TestProdTracks:
     runs-on: ubuntu-latest
     # This action is allowed to run on the main/master branch.
+    # We only run this job if the tracks matrix is not empty.
     if: ${{ needs.GetTracks.outputs.matrix != '{"tracks":[""]}' && needs.GetTracks.outputs.matrix != '' }}
     needs: GetTracks
     strategy:
