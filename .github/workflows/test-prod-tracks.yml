@@ -85,17 +85,22 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - name: Track Validate
+      - name: Validate Track
+        id: validate-track
         uses: ./.github/actions/validate-track
         with:
           path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
       
-      - name: Track Push
+      - name: Push Track
+        id: push-track
         uses: ./.github/actions/push-track
         with:
           path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
+        if: steps.validate-track.outcome == 'success'
       
-      - name: Instruqt Track Test
+      - name: Test Track
+        id: test-track
         uses: ./.github/actions/test-track
         with:
           path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
+        if: steps.push-track.outcome == 'success'

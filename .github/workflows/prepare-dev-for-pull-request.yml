@@ -40,12 +40,6 @@ jobs:
       - name: Update file permissions
         run: sudo chmod -R a+rwx ${{ env.TRACK_DIR }}/${{ inputs.slug }}
 
-      - name: Delete Dev Track
-        id: delete-dev-track
-        uses: ./.github/actions/delete-track
-        with:
-          path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}
-
       - name: Prepare dev track code for PR
         uses: ./.github/actions/prepare-dev-for-pr
         with:
