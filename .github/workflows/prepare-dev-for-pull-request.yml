@@ -54,4 +54,4 @@ jobs:
         id: delete-dev-track
         uses: ./.github/actions/delete-track
         with:
-          path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}-dev
+          path: ${{ inputs.slug }}-dev
