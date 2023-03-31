@@ -1,5 +1,5 @@
 name: Prepare Dev Track for Pull Request
-description: Prepares track for validate, push and test.
+description: Prepares track for merge back to main/master.
 inputs:
   path:
     description: Path to the Instruqt track.
