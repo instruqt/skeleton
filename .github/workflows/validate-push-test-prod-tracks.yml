@@ -38,8 +38,6 @@ jobs:
 
     - name: Create Matrix Data
       run: |
-        ALL_TRACKS=ls -d $TRACK_DIR/*
-
         skip_enabled(track) {
           return $(yq '.tags | any_c(test("(?i)no-ci|skip-ci|ci-skip"))' $track)
         }
