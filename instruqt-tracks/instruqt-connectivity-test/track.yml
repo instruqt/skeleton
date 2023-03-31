@@ -1,5 +1,5 @@
 slug: instruqt-connectivity-test
-id: dl7ksxhs3awi
+id: 4l3km26e2kai
 title: Instruqt Connectivity Test
 teaser: Use this track to verify connectivity to the Instruqt platform
 description: Try out the terminal and text editor to ensure Instruqt tools are not
@@ -7,11 +7,13 @@ description: Try out the terminal and text editor to ensure Instruqt tools are n
 icon: https://cdn.instruqt.com/assets/templates/ubuntu.png
 tags:
 - utility
+- prod
 owner: instruqt-demos
 developers:
 - sean@instruqt.com
+maintenance: false
 lab_config:
   overlay: false
   width: 33
   position: right
-checksum: "10800406335244909721"
+checksum: "116783509346990991"
