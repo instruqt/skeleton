@@ -38,7 +38,7 @@ jobs:
 
     - name: Create Matrix Data
       run: |
-        echo "TRACKS=$(ls -d $TRACK_DIR/* | jq -R -s -c 'split("\n")[:-1]')" | sed 's/"/\\"/g' >> $GITHUB_ENV
+        echo TRACKS="{\\\"tracks\\\":$(ls -d $TRACK_DIR/* | jq -R -s -c 'split("\n")[:-1]' | sed 's/"/\\"/g')}" >> $GITHUB_ENV
         echo $GITHUB_ENV
         cat $GITHUB_ENV
 
