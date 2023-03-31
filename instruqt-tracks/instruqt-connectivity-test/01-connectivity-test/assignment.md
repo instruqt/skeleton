@@ -1,6 +1,6 @@
 ---
 slug: connectivity-test
-id: kfeegssco4ws
+id: 8nsryh5cettw
 type: challenge
 title: Test for Connectivity
 teaser: See if you can reach the Instruqt virtual lab
@@ -29,6 +29,3 @@ echo "Hello Instruqt"
 ```
 
 If you're able to interact with the terminal Instruqt is not being blocked!
-
-Instruqt uses websockets to connect users to the terminal and editor.
-
