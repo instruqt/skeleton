@@ -46,7 +46,7 @@ jobs:
       
           # Run the yq command to check the tags array and return the result
           yq_result=$(yq '.tags | any_c(test("(?i)no-ci|skip-ci|ci-skip"))' "$1")
-          return "$yq_result"
+          echo "$yq_result"
         }
 
         for t in $(ls -d $TRACK_DIR/*); do
