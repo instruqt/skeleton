@@ -25,7 +25,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  GetTrackSlugs:
+  GetTracks:
     runs-on: ubuntu-latest
     steps:
     - name: Check out repository code
@@ -45,10 +45,10 @@ jobs:
 
   TestDevTracks:
     runs-on: ubuntu-latest
-    if: ${{ needs.GetTrackSlugs.outputs.matrix != '[]' && needs.GetTrackSlugs.outputs.matrix != '' }}
-    needs: GetTrackSlugs
+    if: ${{ needs.GetTracks.outputs.matrix != '[]' && needs.GetTracks.outputs.matrix != '' }}
+    needs: GetTracks
     strategy:
-      matrix: ${{ fromJson(needs.GetTrackSlugs.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.GetTracks.outputs.matrix) }}
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
