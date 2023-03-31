@@ -3,7 +3,7 @@
 #
 # This workflow will convert the provided track into a DEV version
 ##############################################################################
-name: copy-prod-to-dev
+name: copy-prod-track-to-dev
 
 env:
   INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}

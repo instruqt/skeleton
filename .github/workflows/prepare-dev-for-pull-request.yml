@@ -40,7 +40,13 @@ jobs:
       - name: Update file permissions
         run: sudo chmod -R a+rwx ${{ env.TRACK_DIR }}/${{ inputs.slug }}
 
-      - name: Promote dev track
+      - name: Delete Dev Track
+        id: delete-dev-track
+        uses: ./.github/actions/delete-track
+        with:
+          path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}
+
+      - name: Prepare dev track code for PR
         uses: ./.github/actions/prepare-dev-for-pr
         with:
           path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}
@@ -49,9 +55,3 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Creating PR for dev ${{ inputs.slug }} track
-
-      - name: Delete Dev Track
-        id: delete-dev-track
-        uses: ./.github/actions/delete-track
-        with:
-          path: ${{ inputs.slug }}-dev
