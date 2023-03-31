@@ -38,12 +38,20 @@ jobs:
 
     - name: Create Matrix Data
       run: |
-        skip_enabled(track) {
-          return $(yq '.tags | any_c(test("(?i)no-ci|skip-ci|ci-skip"))' $track)
+        function skip_enabled() {
+          if ! [[ -d "$1" ]]; then
+              echo "Error: $1 is not a valid track directory"
+              return 1
+          fi
+      
+          # Run the yq command to check the tags array and return the result
+          yq_result=$(yq '.tags | any_c(test("(?i)no-ci|skip-ci|ci-skip"))' "$1")
+          echo "$yq_result"
+          return 0
         }
 
         for t in $(ls -d $TRACK_DIR/*); do
-          if [[ skip_enabled($t) == 'true' ]]; then
+          if [[ skip_enabled $t == 'true' ]]; then
             echo "Skipping $t"
           else
             echo "Adding $t"
