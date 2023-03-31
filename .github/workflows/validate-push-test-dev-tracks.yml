@@ -38,7 +38,7 @@ jobs:
       run: echo "TRACKS=$(ls -d $TRACK_DIR/*/ | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_ENV
 
     - id: set-matrix
-      run: echo "::set-output name=matrix::${{ env.TRACKS }}"
+      run: echo "{name}={matrix}" >> $GITHUB_OUTPUT
 
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
