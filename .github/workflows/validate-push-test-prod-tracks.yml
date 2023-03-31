@@ -37,10 +37,14 @@ jobs:
       uses: ./.github/actions/install-yq
 
     - name: Create Matrix Data
-      run: echo "TRACKS=$(ls -d $TRACK_DIR/* | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_ENV
+      run: |
+        echo "TRACKS=$(ls -d $TRACK_DIR/* | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_ENV
+        echo $GITHUB_ENV
 
     - id: set-matrix
-      run: echo "{name}={matrix}" >> $GITHUB_OUTPUT; echo $GITHUB_OUTPUT
+      run: |
+        echo "matrix=${{ env.TRACKS }}" >> $GITHUB_OUTPUT
+        echo $GITHUB_OUTPUT
 
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
