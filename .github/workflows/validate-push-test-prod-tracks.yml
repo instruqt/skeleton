@@ -38,7 +38,22 @@ jobs:
 
     - name: Create Matrix Data
       run: |
-        echo TRACKS="{\\\"tracks\\\":$(ls -d $TRACK_DIR/* | jq -R -s -c 'split("\n")[:-1]' | sed 's/"/\\"/g')}" >> $GITHUB_ENV
+        ALL_TRACKS=ls -d $TRACK_DIR/*
+
+        skip_enabled(track) {
+          return $(yq '.tags | any_c(test("(?i)no-ci|skip-ci|ci-skip"))' $track)
+        }
+
+        for t in $(ls -d $TRACK_DIR/*); do
+          if [[ $(skip_enabled $t) == 'true' ]]; then
+            echo "Skipping $t"
+          else
+            echo "Adding $t"
+            CI_TRACKS+=$t
+          fi
+        done
+
+        echo TRACKS="{\\\"tracks\\\":$($CI_TRACKS | jq -R -s -c 'split("\n")[:-1]' | sed 's/"/\\"/g')}" >> $GITHUB_ENV
         echo $GITHUB_ENV
         cat $GITHUB_ENV
 
@@ -61,16 +76,6 @@ jobs:
 
       - name: Check out repository code
         uses: actions/checkout@v3
-
-      # This step checks for the "no-ci" tag on a track
-      # If the tag is not present, this step succeeds
-
-      - name: Check CI
-        id: check-ci
-        uses: ./.github/actions/check-for-no-ci-flag
-        with:
-          id: ${{ matrix.tracks.id }}
-        continue-on-error: true
 
       - name: Track Validate
         uses: ./.github/actions/validate-track

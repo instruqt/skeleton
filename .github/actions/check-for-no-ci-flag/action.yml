@@ -1,8 +1,8 @@
 name: CI Enabled Check
 description: Pulls track tags from Instruqt to determine if "no-ci" tag is set
 inputs:
-  track:
-    description: Name of track directory to test
+  tracks:
+    description: Array of track directories to test
     required: true
 outputs:
   ci:
