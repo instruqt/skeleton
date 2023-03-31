@@ -88,24 +88,33 @@ jobs:
       - name: Convert to DEV version 
         uses: ./.github/actions/convert-prod-to-dev
         with:
-          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks.slug }}
+          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
 
       # Remaining steps will skip any tracks that do not have existing DEV variants on Instruqt
       - name: Pull track from instruqt
-        id: track-pull
+        id: pull-track
         uses: ./.github/actions/pull-track
         with:
-          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks.slug }}
+          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
         continue-on-error: true
         
       - name: Track Validate
+        id: validate-track
         uses: ./.github/actions/validate-track
         with:
-          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks.slug }}
-        if: steps.track-pull.outcome == 'success'
+          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
+        if: steps.pull-track.outcome == 'success'
       
       - name: Track Test
+        id: test-track
         uses: ./.github/actions/test-track
         with:
-          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks.slug }}
-        if: steps.track-pull.outcome == 'success'
+          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
+        if: steps.validate-track.outcome == 'success'
+
+      - name: Delete Dev Track
+        id: delete-dev-track
+        uses: ./.github/actions/delete-track
+        with:
+          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}-dev
+        if: steps.test-track.outcome == 'success'
