@@ -38,6 +38,7 @@ jobs:
 
     - name: Create Matrix Data
       run: |
+        set -x
         function skip_enabled() {
           if ! [[ -f "$1/track.yml" ]]; then
               echo "Error: $1 is not a valid track directory"
