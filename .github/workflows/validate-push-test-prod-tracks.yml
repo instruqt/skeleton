@@ -79,16 +79,13 @@ jobs:
         uses: ./.github/actions/validate-track
         with:
           path: ${{ env.TRACK_DIR }}/${{ matrix.tracks.slug }}
-        if: steps.check-ci.outcome == 'success'
       
       - name: Track Push
         uses: ./.github/actions/push-track
         with:
           path: ${{ env.TRACK_DIR }}/${{ matrix.tracks.slug }}
-        if: steps.check-ci.outcome == 'success'
       
       - name: Instruqt Track Test
         uses: ./.github/actions/test-track
         with:
           path: ${{ env.TRACK_DIR }}/${{ matrix.tracks.slug }}
-        if: steps.check-ci.outcome == 'success'
