@@ -8,7 +8,7 @@ tags:
 - utility
 owner: instruqt-demos # replace this
 developers:
-- you@example.com # replace this
+- sean@instruqt.com # replace this
 lab_config:
   overlay: false
   width: 33
