@@ -8,6 +8,7 @@ icon: https://cdn.instruqt.com/assets/templates/ubuntu.png
 tags:
 - utility
 - prod
+- skip-ci
 owner: instruqt-demos
 developers:
 - sean@instruqt.com
