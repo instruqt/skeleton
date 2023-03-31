@@ -10,7 +10,6 @@ tags:
 owner: instruqt-demos
 developers:
 - sean@instruqt.com
-maintenance: true
 lab_config:
   overlay: false
   width: 33
