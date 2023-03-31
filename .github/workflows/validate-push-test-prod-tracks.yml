@@ -45,7 +45,7 @@ jobs:
           fi
       
           # Run the yq command to check the tags array and return the result
-          yq_result=$(yq '.tags | any_c(test("(?i)no-ci|skip-ci|ci-skip"))' "$1")
+          yq_result=$(yq '.tags | any_c(test("(?i)no-ci|skip-ci|ci-skip"))' "$1/track.yml")
           echo "$yq_result"
         }
 
