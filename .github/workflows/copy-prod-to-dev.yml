@@ -1,8 +1,7 @@
 ##############################################################################
 # Instruqt Github Actions Workflow
 #
-# This workflow will convert the provided track-slug into a DEV variant
-#
+# This workflow will convert the provided track into a DEV version
 ##############################################################################
 name: copy-prod-to-dev
 

@@ -2,9 +2,8 @@
 # Instruqt Github Actions Workflow
 #
 # This workflow file and its actions will run a validate/push/test cycle on
-# one or more Instruqt DEV tracks directories in your repo. Each job targets a
-# separate directory of tracks. All the tracks in each directory must belong
-# to the same organization.
+# on a directory full of instruqt tracks. All the tracks in the directory must
+# belong to the same Instruqt team.
 #
 ##############################################################################
 name: validate-push-test-dev-tracks
@@ -28,17 +27,47 @@ jobs:
   GetTracks:
     runs-on: ubuntu-latest
     steps:
+
     - name: Check out repository code
       uses: actions/checkout@v3
     
     - name: Install yq Package
       uses: ./.github/actions/install-yq
-    
+
     - name: Create Matrix Data
-      run: echo "TRACKS=$(ls -d $TRACK_DIR/*/ | jq -R -s -c 'split("\n")[:-1]')" >> $GITHUB_ENV
+      run: |
+        #set -x
+        function skip_enabled() {
+          if ! [[ -f "$1/track.yml" ]]; then
+              echo "Error: $1 is not a valid track directory"
+              return 1
+          fi
+      
+          # Run the yq command to check the tags array and return the result
+          yq_result=$(yq '.tags | any_c(test("(?i)no-ci|skip-ci|ci-skip"))' "$1/track.yml")
+          #echo "$yq_result"
+        }
+
+        cd $TRACK_DIR
+        for t in $(ls -d *); do
+          #echo $t
+          if [[ $(skip_enabled $t) == 'true' ]]; then
+            echo "Skip CI tag found, skipping $t"
+          else
+            echo "Adding $t to test matrix"
+            CI_TRACKS+=$t
+          fi
+        done
+
+        #echo $CI_TRACKS
+
+        echo TRACKS="{\\\"tracks\\\":$(echo $CI_TRACKS | jq -R -s -c 'split("\n")[:-1]' | sed 's/"/\\"/g')}" >> $GITHUB_ENV
+        echo $GITHUB_ENV
+        cat $GITHUB_ENV
 
     - id: set-matrix
-      run: echo "{name}={matrix}" >> $GITHUB_OUTPUT
+      run: |
+        echo "matrix=${{ env.TRACKS }}" >> $GITHUB_OUTPUT
 
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
