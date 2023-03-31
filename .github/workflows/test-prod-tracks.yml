@@ -74,7 +74,7 @@ jobs:
   TestProdTracks:
     runs-on: ubuntu-latest
     # This action is allowed to run on the main/master branch.
-    if: ${{ needs.GetTracks.outputs.matrix != '"tracks":[""]' && needs.GetTracks.outputs.matrix != '' }}
+    if: ${{ needs.GetTracks.outputs.matrix != '{"tracks":[""]}' && needs.GetTracks.outputs.matrix != '' }}
     needs: GetTracks
     strategy:
       matrix: ${{ fromJson(needs.GetTracks.outputs.matrix) }}
