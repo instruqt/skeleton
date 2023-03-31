@@ -1,13 +1,12 @@
-slug: instruqt-connectivity-test-dev
+slug: instruqt-connectivity-test
 id: cvyrgtvzedgv
-title: DEV - Instruqt Connectivity Test
+title: Instruqt Connectivity Test
 teaser: Use this track to verify connectivity to the Instruqt platform
 description: Try out the terminal and text editor to ensure Instruqt tools are not
   blocked from your network.
 icon: https://cdn.instruqt.com/assets/templates/ubuntu.png
 tags:
 - utility
-- dev
 owner: instruqt-demos
 developers:
 - sean@instruqt.com
