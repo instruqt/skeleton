@@ -39,7 +39,7 @@ jobs:
     - name: Create Matrix Data
       run: |
         function skip_enabled() {
-          if ! [[ -d "$1" ]]; then
+          if ! [[ -f "$1/track.yml" ]]; then
               echo "Error: $1 is not a valid track directory"
               return 1
           fi
@@ -50,6 +50,7 @@ jobs:
         }
 
         for t in $(ls -d $TRACK_DIR/*); do
+          echo $t
           if [[ $(skip_enabled $t) == 'true' ]]; then
             echo "Skipping $t"
           else
