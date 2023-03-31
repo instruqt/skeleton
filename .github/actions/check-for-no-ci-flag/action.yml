@@ -1,8 +1,8 @@
 name: CI Enabled Check
 description: Pulls track tags from Instruqt to determine if "no-ci" tag is set
 inputs:
-  id:
-    description: ID of instruqt track to pull
+  track:
+    description: Name of track directory to test
     required: true
 outputs:
   ci:
@@ -10,25 +10,17 @@ outputs:
 runs:
   using: composite
   steps:
-  - name: Run CURL request 
+  - name: Parse track.yml for no-ci, ci-skip or skip-ci tags
     shell: bash
     run: |
       
-      cat >query.json <<EOF
-      {
-        "query": "query {
-          track(trackID: \"${{ inputs.id }}\") {
-            tags
-          }
-        }"
-      }
-      EOF
+      TRACK=${{ inputs.track }}
 
-      TAGS=$(curl -H "Authorization: Bearer ${{ env.INSTRUQT_TOKEN }}" -X POST -d @query.json https://play.instruqt.com/graphql)
+      SKIP_ENABLED=$(yq '.tags | any_c(test("(?i)no-ci|skip-ci|ci-skip"))' $TRACK/track.yml)
 
-      if echo $TAGS | grep "no-ci"; then 
-        echo "CI is disabled for this track"
+      if [[ SKIP_ENABLED == 'false']]; then 
+        echo "CI is disabled for this track."
         exit 1
       else 
-        echo "CI is enabled for this track"
+        echo "CI is enabled for this track."
       fi
