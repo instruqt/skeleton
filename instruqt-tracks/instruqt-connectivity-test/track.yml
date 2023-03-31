@@ -8,7 +8,6 @@ icon: https://cdn.instruqt.com/assets/templates/ubuntu.png
 tags:
 - utility
 - prod
-- skip-ci
 owner: instruqt-demos
 developers:
 - sean@instruqt.com
@@ -17,4 +16,4 @@ lab_config:
   overlay: false
   width: 33
   position: right
-checksum: "8109907858527644888"
+checksum: "18019041918075028100"
