@@ -38,7 +38,7 @@ jobs:
 
     - name: Create Matrix Data
       run: |
-        set -x
+        #set -x
         function skip_enabled() {
           if ! [[ -f "$1/track.yml" ]]; then
               echo "Error: $1 is not a valid track directory"
@@ -47,20 +47,21 @@ jobs:
       
           # Run the yq command to check the tags array and return the result
           yq_result=$(yq '.tags | any_c(test("(?i)no-ci|skip-ci|ci-skip"))' "$1/track.yml")
-          echo "$yq_result"
+          #echo "$yq_result"
         }
 
-        for t in $(ls -d $TRACK_DIR/*); do
-          echo $t
+        cd $TRACK_DIR
+        for t in $(ls -d *); do
+          #echo $t
           if [[ $(skip_enabled $t) == 'true' ]]; then
-            echo "Skipping $t"
+            echo "Skip CI tag found, skipping $t"
           else
-            echo "Adding $t"
+            echo "Adding $t to test matrix"
             CI_TRACKS+=$t
           fi
         done
 
-        echo $CI_TRACKS
+        #echo $CI_TRACKS
 
         echo TRACKS="{\\\"tracks\\\":$(echo $CI_TRACKS | jq -R -s -c 'split("\n")[:-1]' | sed 's/"/\\"/g')}" >> $GITHUB_ENV
         echo $GITHUB_ENV
@@ -69,8 +70,6 @@ jobs:
     - id: set-matrix
       run: |
         echo "matrix=${{ env.TRACKS }}" >> $GITHUB_OUTPUT
-        echo $GITHUB_OUTPUT
-        cat $GITHUB_OUTPUT
 
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -89,14 +88,14 @@ jobs:
       - name: Track Validate
         uses: ./.github/actions/validate-track
         with:
-          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks.slug }}
+          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
       
       - name: Track Push
         uses: ./.github/actions/push-track
         with:
-          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks.slug }}
+          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
       
       - name: Instruqt Track Test
         uses: ./.github/actions/test-track
         with:
-          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks.slug }}
+          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
