@@ -24,6 +24,7 @@ on:
 jobs:
   CreateDevTrack:
     runs-on: ubuntu-latest
+    # Prevents accidentally running the workflow on the main or master branch.
     if: github.ref != 'refs/heads/master' && github.ref != 'refs/heads/main'
     steps:
 

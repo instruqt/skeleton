@@ -1,8 +1,7 @@
 ##############################################################################
 # Instruqt Github Actions Workflow
 #
-# This workflow will promote a DEV track back to its PROD version
-#
+# This workflow will convert DEV track code into PROD track code
 ##############################################################################
 name: prepare-dev-for-pull-request
 
