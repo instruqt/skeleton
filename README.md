@@ -1,4 +1,5 @@
 ## Instruqt Skeleton
+[![Instruqt Validate, Push, and Test](https://github.com/instruqt/skeleton/actions/workflows/test-prod-tracks.yml/badge.svg)](https://github.com/instruqt/skeleton/actions/workflows/test-prod-tracks.yml)
 
 This repository contains a set of GitHub Actions workflows to manage the development of your Instruqt tracks. 
 
