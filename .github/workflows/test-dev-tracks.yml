@@ -86,8 +86,7 @@ jobs:
         uses: ./.github/actions/install-yq
 
       # Here we use a trick to get the dev tracks that need testing.
-      # We convert each PROD track from our matrix into a DEV track.
-      # This is required because the containerized CLI reads track.yml
+      # We convert each PROD track from our matrix into a DEV track locally.
       - name: Create dev track from prod track
         run: |
           # Change into the track directory
