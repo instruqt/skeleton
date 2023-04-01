@@ -13,3 +13,6 @@ From the repository that contains your Instruqt tracks:
 4. Once the development version of your track is ready, return to GitHub and run the `prepare-dev-for-pull-request` workflow from the **Actions** menu. Provide the same branch and track slug you used in the `copy-prod-track-to-dev` workflow.
 5. Create a pull request by selecting **Pull requests** in the top menu of your repository, followed by **New pull request**. Indicate your new branch, and select **Create pull request**. 
 6. Have a colleague review your work, make sure the tests all pass, and merge the pull request! Once merged, the changes will be applied to the production version of your track and production will receive another round of post-merge testing. You can review the results of the tests in the Actions tab of your repo.
+
+## Tips
+This workflow is designed to use a single track per branch for development. If you need to work on multiple tracks create separate branches and dev copies for each track.
