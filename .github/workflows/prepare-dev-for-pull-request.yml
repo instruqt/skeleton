@@ -38,7 +38,7 @@ jobs:
         with:
           ref: ${{ github.event.repository.default_branch }}
 
-      - name: Extract the track id from the track.yml file
+      - name: Extract the production track id from the track.yml file
         id: get_prod_trackid
         run: |
           echo "TRACKID=$(grep -oP '(?<=id: ).*' instruqt-tracks/${{ inputs.slug }}/track.yml)" >> $GITHUB_ENV
