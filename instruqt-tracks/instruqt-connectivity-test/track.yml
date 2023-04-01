@@ -2,17 +2,19 @@ slug: instruqt-connectivity-test
 id: dl7ksxhs3awi
 title: Instruqt Connectivity Test
 teaser: Use this track to verify connectivity to the Instruqt platform
-description: Try out the terminal and text editor to ensure Instruqt tools are not
-  blocked from your network.
+description: Try out the terminal and text editor to ensure Instruqt tools are not blocked from your network.
 icon: https://cdn.instruqt.com/assets/templates/ubuntu.png
 tags:
-- utility
-- prod
+  - utility
+  - prod
 owner: instruqt-demos
 developers:
 - sean@instruqt.com
+  - sean@instruqt.com
+maintenance: false
 lab_config:
   overlay: false
   width: 33
   position: right
-checksum: "6135917258013302723"
+checksum: "7886001505032331422"
+
