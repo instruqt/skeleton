@@ -27,3 +27,5 @@ You can test your production tracks any time by manually running the test-prod-t
     # This runs weekly on Sunday at 5:00 am
     - cron:  '0 5 * * 0'
 ```
+
+You can put a status badge on your README.md by changing the URL in this template to match your own repo. It will show the status of the last test-prod-tracks run.
