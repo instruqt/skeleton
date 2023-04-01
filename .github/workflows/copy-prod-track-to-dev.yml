@@ -6,8 +6,12 @@
 name: copy-prod-track-to-dev
 
 env:
+  # Store your Instruqt API key and track directory as a secret
+  # and variable in your Github repo.
+  TRACK_DIR: ${{ vars.TRACK_DIR }}
   INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
-  TRACK_DIR: instruqt-tracks
+  # Leave this alone, it will be auto-populated.
+  TRACKS: ""
   
 concurrency:
   group: ${{ github.head_ref || github.run_id }}
