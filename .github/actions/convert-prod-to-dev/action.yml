@@ -20,7 +20,6 @@ runs:
       fi
       
       # Strip out the track ids and rename the dev track
-      # TODO: Save the track ids and slugs somewhere so we can restore them later
       echo "Converting track to dev version..."
       for file in $(find . -name assignment.md); do
         yq eval --inplace --front-matter=process 'del(.id)' $file

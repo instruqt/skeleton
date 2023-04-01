@@ -12,8 +12,12 @@ name: test-dev-tracks
 env:
   # Set these values to match your environment. Your token should be 
   # stored as a Github secret in your tracks repo. 
+  # TODO: Make this a github variable
   TRACK_DIR: instruqt-tracks
   INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
+
+  # Leave this one alone. We populate it later in the workflow.
+  TRACKS: ""
 
 concurrency:
   group: ${{ github.head_ref || github.run_id }}

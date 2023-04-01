@@ -13,8 +13,12 @@ name: test-prod-tracks
 env:
   # Set these values to match your environment. Your token should be 
   # stored as a Github secret in your tracks repo.
+  # TODO: Make this a github variable
   TRACK_DIR: instruqt-tracks
   INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
+
+  # Leave this one alone. We populate it later in the workflow.
+  TRACKS: ""
 
 concurrency:
   group: ${{ github.head_ref || github.run_id }}
@@ -80,8 +84,38 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.GetTracks.outputs.matrix) }}
     steps:
+      # Find the default branch name so we can extract Track IDs
+      - name: Determine default branch
+        run: echo "::set-output name=default-branch::${GITHUB_REF#refs/heads/}"
+        id: default-branch
+
       - name: Check out repository code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ steps.default-branch.outputs.default-branch }}
+
+      - name: Store Track IDs
+        id: store-track-ids
+        uses: ./.github/actions/store-track-ids
+        with:
+          path: ${{ env.TRACK_DIR }}
+
+      - name: Track Surgery
+        id: track-surgery
+        run: |-
+          set -euo pipefail
+
+          # Loop through the track IDs and for each one with a matching track
+          # directory, replace the track ID in the track.yml file with the
+          # production track ID.
+          for track_id in ${{ steps.store-track-ids.outputs.track-ids }}; do
+            track_dir=$(echo $track_id | cut -d: -f1)
+            track_prod_id=$(echo $track_id | cut -d: -f2)
+            if [[ $track_dir == ${{ matrix.tracks }} ]]; then
+              echo "Replacing track ID in $track_dir/track.yml with $track_prod_id"
+              sed -i "s/id: .*/id: $track_prod_id/" $track_dir/track.yml
+            fi
+          done
 
       - name: Validate Track
         id: validate-track

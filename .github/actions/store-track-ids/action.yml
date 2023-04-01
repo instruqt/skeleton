@@ -1,0 +1,48 @@
+name: Store Track IDs
+description: |-
+  Production track IDs are easily overwritten by the Instruqt CLI.
+
+  The default behavior on a `--force` is to generate a new ID if none exists
+  in the local file. You must store your production track IDs and preserve 
+  them in a git repo.
+
+  This action extracts the known good production track IDs and outputs them 
+  for other actions to use as an input.
+inputs:
+  path:
+    description: Path to the Instruqt track directory.
+    required: true
+runs:
+  using: composite
+  steps:
+  - name: Extract track ids and slugs from all track.yml files in the track directory.
+    shell: bash
+    run: |
+      cd ${{ inputs.path }}
+
+      # Skip tracks with a dev tag
+      if [[ $(yq eval '.tags[] | select(. == "dev")' track.yml) ]]; then
+        echo "Skipping dev track..."
+        exit 0
+      fi
+
+      # Skip tracks that have at least one of these tags: no-ci ci-skip skip-ci
+      if [[ $(yq eval '.tags[] | select(. == "no-ci" or . == "ci-skip" or . == "skip-ci")' track.yml) ]]; then
+        echo "Skipping track with no-ci, ci-skip, or skip-ci tag..."
+        exit 0
+      fi
+      
+      # Loop through tracks and extract the track id and slug and output as JSON
+      for file in $(find . -name track.yml); do
+        track_id=$(yq eval '.id' $file)
+        track_slug=$(yq eval '.slug' $file)
+        echo "{\"id\": \"$track_id\", \"slug\": \"$track_slug\"}"
+      done
+      
+  - name: Create a map for the next output to use.
+    shell: bash
+    run: |
+      # Create a map of track slugs to track ids
+      # This is used by the next step to output the track ids as a JSON array
+      # The output is used by the next action as an input.
+      echo "::set-output name=map::$(jq -s 'reduce .[] as $item ({}; . + $item)' <<< ${{ steps.extract-track-ids.outputs.result }})"
