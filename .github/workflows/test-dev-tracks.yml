@@ -119,7 +119,7 @@ jobs:
           yq eval --inplace '.maintenance = true' track.yml
 
       # Then, we attempt to pull these DEV tracks from the Instruqt platform.
-      # This ensures you are testing the latest dev version of your track.
+      # This ensures you get the latest version of the dev track.
       - name: Pull track from instruqt
         id: pull-track
         uses: ./.github/actions/pull-track
