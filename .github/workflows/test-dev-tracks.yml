@@ -87,10 +87,36 @@ jobs:
 
       # Here we use a trick to get the dev tracks that need testing.
       # We convert each PROD track from our matrix into a DEV track.
-      - name: Convert to DEV version 
-        uses: ./.github/actions/convert-prod-to-dev
-        with:
-          path: ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
+      # This is required because the containerized CLI reads track.yml
+      - name: Create dev track from prod track
+        run: |
+          # Change into the track directory
+          cd ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
+
+          # Check whether this is already a dev version track
+          ISDEV=$(yq '.slug | test(".*-dev$")' track.yml)
+          if [[ $ISDEV == "true" ]]; then
+            echo -e "It looks like the track slug already has the -dev suffix"
+            exit 1
+          fi
+          
+          # Strip out the track ids and rename the dev track
+          echo "Converting track to dev version..."
+          for file in $(find . -name assignment.md); do
+            yq eval --inplace --front-matter=process 'del(.id)' $file
+          done
+          
+          # Remove IDs and update slugs/titles
+          yq eval --inplace 'del(.id)' track.yml
+          yq eval --inplace '.slug += "-dev"' track.yml
+          yq eval --inplace '.title = "DEV - " + .title' track.yml
+          
+          # Replace prod tag with dev tag
+          yq eval --inplace 'del(.tags[] | select(. == "prod"))' track.yml
+          yq eval --inplace '.tags = .tags + "dev" ' track.yml
+          
+          # Set into maintenance mode
+          yq eval --inplace '.maintenance = true' track.yml
 
       # Then, we attempt to pull these DEV tracks from the Instruqt platform.
       # This ensures you are testing the latest dev version of your track.

@@ -63,7 +63,7 @@ jobs:
           # Set into maintenance mode
           yq eval --inplace '.maintenance = true' track.yml
 
-      - name: Push dev tracks
+      - name: Push dev track to Instruqt
         uses: ./.github/actions/push-track
         with:
           path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}
