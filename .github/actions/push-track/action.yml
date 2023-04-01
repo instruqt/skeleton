@@ -11,6 +11,6 @@ runs:
     shell: bash
     run: |
       cd ${{ inputs.path }}
-      # Remove IDs and update slugs/titles
+      # Remove IDs
       yq eval --inplace 'del(.id)' track.yml
       docker run -e INSTRUQT_TOKEN=${{ env.INSTRUQT_TOKEN }} --workdir="/track" --mount type=bind,source="$(pwd)",target=/track instruqt/cli track push --force

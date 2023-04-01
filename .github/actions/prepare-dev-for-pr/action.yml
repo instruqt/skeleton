@@ -21,5 +21,8 @@ runs:
       sed -i '0,/^title/{s/DEV - //}' track.yml
       sed -i 's/^- dev/- prod/g' track.yml
 
+      # Strip out the track id.
+      yq eval --inplace 'del(.id)' track.yml
+
       # Remove maintenance tag
       sed -i 's/^maintenance: true/maintenance: false/g' track.yml
