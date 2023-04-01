@@ -32,6 +32,7 @@ jobs:
     permissions: write-all
     steps:
 
+      # The first two steps are to get the production track ID and save it as an environment variable
       - name: Check out repository code for the default branch
         uses: actions/checkout@v3
         with:
@@ -42,11 +43,13 @@ jobs:
         run: |
           echo "TRACKID=$(grep -oP '(?<=id: ).*' instruqt-tracks/${{ inputs.slug }}/track.yml)" >> $GITHUB_ENV
 
+      # Then we check out the development branch to do the work
       - name: Check out repository code for the current branch
         uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
 
+      # Pulls directly from Instruqt to ensure we have the latest changes
       - name: Pull latest track
         uses: ./.github/actions/pull-track
         with:
@@ -55,12 +58,14 @@ jobs:
       - name: Update file permissions
         run: sudo chmod -R a+rwx ${{ env.TRACK_DIR }}/${{ inputs.slug }}
 
+      # Updates track.yml with the production track ID, prepares for PR
       - name: Prepare dev track code for PR
         uses: ./.github/actions/prepare-dev-for-pr
         with:
           path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}
           trackid: ${{ steps.get_prod_trackid.outputs.trackid }}
 
+      # Commits prod-ready changes to the dev branch.
       - name: Commit Changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
