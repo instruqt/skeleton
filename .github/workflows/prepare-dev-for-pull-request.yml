@@ -79,4 +79,4 @@ jobs:
       - name: Commit Changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Creating commit on dev ${{ inputs.slug }} track
+          commit_message: Commit changes to dev branch for ${{ inputs.slug }} track
