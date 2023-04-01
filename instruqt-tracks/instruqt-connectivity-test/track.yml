@@ -1,5 +1,5 @@
 slug: instruqt-connectivity-test
-id: oaojyts1fudm
+id: dl7ksxhs3awi
 title: Instruqt Connectivity Test
 teaser: Use this track to verify connectivity to the Instruqt platform
 description: Try out the terminal and text editor to ensure Instruqt tools are not
@@ -11,9 +11,8 @@ tags:
 owner: instruqt-demos
 developers:
 - sean@instruqt.com
-maintenance: false
 lab_config:
   overlay: false
   width: 33
   position: right
-checksum: "18019041918075028100"
+checksum: "6135917258013302723"
