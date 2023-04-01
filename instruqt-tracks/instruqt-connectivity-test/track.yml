@@ -9,7 +9,8 @@ tags:
 - utility
 - prod
 owner: instruqt-demos
-developers: []
+developers:
+- sean@instruqt.com
 maintenance: false
 lab_config:
   overlay: false
