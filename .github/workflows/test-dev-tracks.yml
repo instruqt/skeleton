@@ -62,6 +62,7 @@ jobs:
           fi
         done
 
+        # This mess creates a string of properly escaped JSON for the next job to use.
         escaped_json_string=$(printf "%s\n" "${CI_TRACKS[@]}" | jq -R -s -c 'split("\n")[:-1]' | sed 's/"/\\\"/g')
         echo $escaped_json_string
         echo TRACKS="{\\\"tracks\\\":$escaped_json_string}" >> $GITHUB_ENV
