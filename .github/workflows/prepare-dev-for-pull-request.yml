@@ -57,10 +57,20 @@ jobs:
 
       # Updates track.yml with the production track ID, prepares for PR
       - name: Prepare dev track code for PR
-        uses: ./.github/actions/prepare-dev-for-pr
-        with:
-          path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}
-          trackid: ${{ env.TRACKID }}
+        run: |
+          # Change directory to the track directory
+          cd ${{ env.TRACK_DIR }}/${{ inputs.slug }}
+
+          # Remove the dev suffix and title prefix if they exist, also update tags
+          sed -i '0,/^slug/{s/-dev//}' track.yml
+          sed -i '0,/^title/{s/DEV - //}' track.yml
+          sed -i 's/^- dev/- prod/g' track.yml
+    
+          # Replace the track ID with the production track ID
+          sed -i "s/^id: .*/id: ${{ env.TRACKID }}/g" track.yml
+    
+          # Remove maintenance tag
+          sed -i 's/^maintenance: true/maintenance: false/g' track.yml
 
       # Commits prod-ready changes to the dev branch.
       - name: Commit Changes
