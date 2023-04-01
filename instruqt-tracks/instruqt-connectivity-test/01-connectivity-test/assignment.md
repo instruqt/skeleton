@@ -29,3 +29,5 @@ echo "Hello Instruqt"
 ```
 
 If you're able to interact with the terminal Instruqt is not being blocked!
+
+Instruqt uses websockets for terminal and shell networking.
