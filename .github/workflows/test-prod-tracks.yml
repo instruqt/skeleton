@@ -84,7 +84,9 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.GetTracks.outputs.matrix) }}
     steps:
-      # Find the default branch name so we can extract Track IDs
+      # Detect the default branch name to ensure this is run on main/master
+      # At this point we are post-merge and all changes are committed to main.
+      # This workflow tests your tracks to ensure the merge did not break them.
       - name: Determine default branch
         run: echo "::set-output name=default-branch::${GITHUB_REF#refs/heads/}"
         id: default-branch

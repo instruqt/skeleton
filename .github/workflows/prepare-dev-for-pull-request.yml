@@ -8,6 +8,7 @@ name: prepare-dev-for-pull-request
 env:
   INSTRUQT_TOKEN: ${{ secrets.INSTRUQT_TOKEN }}
   TRACK_DIR: instruqt-tracks
+  TRACKID: ""
   
 concurrency:
   group: ${{ github.head_ref || github.run_id }}
@@ -18,10 +19,6 @@ on:
     inputs:
       slug:
         description: Track Slug
-        required: true
-        type: string
-      trackid:
-        description: Track ID
         required: true
         type: string
 
@@ -63,7 +60,7 @@ jobs:
         uses: ./.github/actions/prepare-dev-for-pr
         with:
           path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}
-          trackid: ${{ steps.get_prod_trackid.outputs.trackid }}
+          trackid: ${{ env.TRACKID }}
 
       # Commits prod-ready changes to the dev branch.
       - name: Commit Changes
