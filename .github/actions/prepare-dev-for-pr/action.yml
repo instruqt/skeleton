@@ -4,7 +4,7 @@ inputs:
   path:
     description: Path to the Instruqt track.
     required: true
-  id:
+  trackid:
     description: ID of Track
     required: true
 runs:
@@ -21,9 +21,9 @@ runs:
       sed -i '0,/^title/{s/DEV - //}' track.yml
       sed -i 's/^- dev/- prod/g' track.yml
 
-      # Strip out the track id. This doesn't help because a brand new track slug
-      # is generated instead of preserving the existing one.
-      yq eval --inplace 'del(.id)' track.yml
+      # Replace the track ID with the one provided as an input
+      # This should be the production track ID!
+      sed -i "s/^id: .*/id: ${{ inputs.trackid }}/g" track.yml
 
       # Remove maintenance tag
       sed -i 's/^maintenance: true/maintenance: false/g' track.yml

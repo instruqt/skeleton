@@ -20,6 +20,10 @@ on:
         description: Track Slug
         required: true
         type: string
+      trackid:
+        description: Track ID
+        required: true
+        type: string
 
 jobs:
   PrepareTrackForPullRequest:
@@ -43,6 +47,7 @@ jobs:
         uses: ./.github/actions/prepare-dev-for-pr
         with:
           path: ${{ env.TRACK_DIR }}/${{ inputs.slug }}
+          trackid: ${{ inputs.trackid }}
 
       - name: Commit Changes
         uses: stefanzweifel/git-auto-commit-action@v4
