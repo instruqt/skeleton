@@ -16,3 +16,14 @@ From the repository that contains your Instruqt tracks:
 
 ## Tips
 This workflow is designed to use a single track per branch for development. If you need to work on multiple tracks create separate branches and dev copies for each track.
+
+Do not forget to run the `prepare-dev-for-pull-request` workflow before creating your pull request. You'll know you've made this mistake if you see DEV code in the changes page of the pull request. As always, carefully review ALL your changes before merging a PR to ensure you don't wreck your production environment.
+
+You can test your production tracks any time by manually running the test-prod-tracks workflow from the Actions tab. You can also schedule nightly or weekly tests of your production tracks by adding a `schedule` block to the `on:` trigger section of the test-prod-tracks YAML:
+
+```
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # This runs weekly on Sunday at 5:00 am
+    - cron:  '0 5 * * 0'
+```
