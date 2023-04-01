@@ -1,6 +1,6 @@
 ---
 slug: connectivity-test
-id: t2acrgj9lbta
+id: na6xexxg4nm0
 type: challenge
 title: Test for Connectivity
 teaser: See if you can reach the Instruqt virtual lab
