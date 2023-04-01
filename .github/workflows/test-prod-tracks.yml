@@ -62,7 +62,9 @@ jobs:
           fi
         done
 
-        echo TRACKS="{\\\"tracks\\\":$(echo $CI_TRACKS | jq -R -s -c 'split("\n")[:-1]' | sed 's/"/\\"/g')}" >> $GITHUB_ENV
+        escaped_json_string=$(printf "%s\n" "${CI_TRACKS[@]}" | jq -R -s -c 'split("\n")[:-1]' | sed 's/"/\\\"/g')
+        echo $escaped_json_string
+        echo TRACKS="{\\\"tracks\\\":$escaped_json_string}" >> $GITHUB_ENV
 
     - id: set-matrix
       run: |
