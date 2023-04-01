@@ -122,6 +122,7 @@ jobs:
 
       # Then, we attempt to pull these DEV tracks from the Instruqt platform.
       # This ensures you get the latest version of the dev track.
+      # For faster CI/CD runs delete any other DEV tracks you're not using.
       - name: Pull track from instruqt
         id: pull-track
         uses: ./.github/actions/pull-track
