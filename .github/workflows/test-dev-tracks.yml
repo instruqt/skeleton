@@ -2,10 +2,22 @@
 # Instruqt Github Actions Workflow
 #
 # This workflow file and its actions will run a validate/push/test cycle on
-# on a directory full of instruqt tracks. All the tracks in the directory must
-# belong to the same Instruqt team.
+# on a directory of instruqt tracks. All the tracks in the directory must
+# belong to the same Instruqt team. Tracks tagged with `skip-ci`, `ci-skip`, 
+# or `no-ci` will not be included in this workflow.
+#
+# Only DEV tracks that are not in maintenance mode will be tested. Each DEV
+# track should have a corresponding PROD track. The workflow will loop through
+# the $TRACK_DIR and test tracks when:
+# 
+#   * A matching DEV version exists on play.instruqt.com
+#   * Dev track is not in maintenance mode
+#   * Track does not include any of the skip tags: no-ci, ci-skip, skip-ci
 #
 # This workflow will run on every pull request to the main/master branch.
+# 
+# To keep run times efficient put your unused DEV tracks into maintenance mode
+# or delete them when you're done!
 ##############################################################################
 name: test-dev-tracks
 
