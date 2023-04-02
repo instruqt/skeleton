@@ -52,13 +52,20 @@ jobs:
         }
 
         cd $TRACK_DIR
-        # Build a list of tracks to test. If a track has a skip tag, it will not be added to the list.
+        # Build a list of tracks to test. Does not include tracks that are tagged
+        # with no-ci, skip-ci, or ci-skip or tracks in maintenance mode or dev tracks
+        # that were accidentally commited to your git repo.
         for t in $(ls -d *); do
-          if [[ $(skip_enabled $t) == 'true' ]]; then
-            echo "Skip CI tag found, skipping $t"
+          if [[ $(yq '.slug | test(".*-dev$")' $t/track.yml) == 'true' ]]; then
+            echo "Track $t is a dev track, please remove it from your repo!"
+            exit 1
+          elif [[ $(yq '.maintenance' $t/track.yml) == 'true' ]]; then
+            echo "Track $t is in maintenance mode, skipping."
+          elif [[ $(skip_enabled $t) == 'true' ]]; then
+            echo "Skip CI tag found, skipping $t."
           else
             echo "Adding $t to test matrix"
-            CI_TRACKS+=$t
+            CI_TRACKS+=("$t")
           fi
         done
 
@@ -94,15 +101,8 @@ jobs:
         run: |
           # Change into the track directory
           cd ${{ env.TRACK_DIR }}/${{ matrix.tracks }}
-
-          # Check whether this is already a dev version track
-          ISDEV=$(yq '.slug | test(".*-dev$")' track.yml)
-          if [[ $ISDEV == "true" ]]; then
-            echo -e "It looks like the track slug already has the -dev suffix"
-            exit 1
-          fi
           
-          # Strip out the track ids and rename the dev track
+          # Strip out the track ids
           echo "Converting track to dev version..."
           for file in $(find . -name assignment.md); do
             yq eval --inplace --front-matter=process 'del(.id)' $file
@@ -116,13 +116,10 @@ jobs:
           # Replace prod tag with dev tag
           yq eval --inplace 'del(.tags[] | select(. == "prod"))' track.yml
           yq eval --inplace '.tags = .tags + "dev" ' track.yml
-          
-          # Set into maintenance mode
-          yq eval --inplace '.maintenance = true' track.yml
 
       # Then, we attempt to pull these DEV tracks from the Instruqt platform.
       # This ensures you get the latest version of the dev track.
-      # For faster CI/CD runs delete any other DEV tracks you're not using.
+      # Only dev tracks that are not in maintenance mode are tested!
       - name: Pull track from instruqt
         id: pull-track
         uses: ./.github/actions/pull-track

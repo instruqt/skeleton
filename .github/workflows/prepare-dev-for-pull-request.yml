@@ -21,7 +21,7 @@ on:
   workflow_dispatch:
     inputs:
       slug:
-        description: Track Slug
+        description: Track Slug (do not include -dev suffix)
         required: true
         type: string
 
@@ -64,16 +64,21 @@ jobs:
           # Change directory to the track directory
           cd ${{ env.TRACK_DIR }}/${{ inputs.slug }}
 
+          # If track is in maintenance mode, exit with an error
+          if $(yq '.maintenance == true' track.yml); then
+            echo "Your dev track ${{ inputs.slug }}-dev is in maintenance mode."
+            echo "Please turn off maintenance mode and run this workflow again."
+            exit 1
+          fi
+
           # Remove the dev suffix and title prefix if they exist, also update tags
+          # We use sed here because the yq command is much more complex.
           sed -i '0,/^slug/{s/-dev//}' track.yml
           sed -i '0,/^title/{s/DEV - //}' track.yml
           sed -i 's/^- dev/- prod/g' track.yml
     
           # Replace the track ID with the production track ID
           sed -i "s/^id: .*/id: ${{ env.TRACKID }}/g" track.yml
-    
-          # Remove maintenance tag
-          sed -i 's/^maintenance: true/maintenance: false/g' track.yml
 
       # Commits prod-ready changes to the dev branch.
       - name: Commit Changes

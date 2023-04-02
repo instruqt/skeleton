@@ -2,9 +2,10 @@
 # Instruqt Github Actions Workflow
 #
 # This workflow file and its actions will run a validate/push/test cycle on
-# one or more Instruqt tracks directories in your repo. Each job targets a
-# separate directory of tracks. All the tracks in each directory must belong
-# to the same organization.
+# all the tracks in your $TRACK_DIR repo. We recommend calling this instruqt-tracks.
+# All the tracks in each directory must belong to the same organization.
+#
+# Tracks tagged with no-ci, skip-ci or ci-skip will be skipped.
 #
 # This workflow will run whenever you merge changes to the main branch.
 ##############################################################################
@@ -23,6 +24,9 @@ concurrency:
   cancel-in-progress: true
 
 on:
+  # Uncomment to run weekly tests on Sunday at 5am UTC
+  # schedule:
+  #   - cron:  '0 5 * * 0'
   push:
     branches:
       - main
@@ -59,7 +63,7 @@ jobs:
             echo "Skip CI tag found, skipping $t"
           else
             echo "Adding $t to test matrix"
-            CI_TRACKS+=$t
+            CI_TRACKS+=("$t")
           fi
         done
 
