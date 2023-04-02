@@ -29,3 +29,5 @@ You can test your production tracks any time by manually running the test-prod-t
 ```
 
 You can put a status badge on your README.md by changing the URL in this template to match your own repo. It will show the status of the last test-prod-tracks run.
+
+For extra protection you can turn on Github branch protection for your main/master branch, and require a coworker to review changes before a merge. This is strongly recommended!
