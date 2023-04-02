@@ -11,9 +11,8 @@ tags:
 owner: instruqt-demos
 developers:
 - sean@instruqt.com
-maintenance: false
 lab_config:
   overlay: false
   width: 33
   position: right
-checksum: "3282677128226777347"
+checksum: "4030229562251127910"
