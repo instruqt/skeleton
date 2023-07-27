@@ -73,8 +73,6 @@ jobs:
             exit 1
           elif [[ $(yq '.maintenance' $t/track.yml) == 'true' ]]; then
             echo "Track $t is in maintenance mode, skipping."
-          elif [[ $(skip_enabled $t) == 'true' ]]; then
-            echo "Skip CI tag found, skipping $t."
           else
             echo "Adding $t to test matrix"
             CI_TRACKS+=("$t")
