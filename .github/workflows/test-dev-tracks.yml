@@ -44,7 +44,7 @@ jobs:
     steps:
 
     - name: Check out repository code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
     
     - name: Install yq Package
       uses: ./.github/actions/install-yq
@@ -102,7 +102,7 @@ jobs:
       matrix: ${{ fromJson(needs.GetTracks.outputs.matrix) }}
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         
       - name: Install yq Package
         uses: ./.github/actions/install-yq
