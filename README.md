@@ -5,6 +5,9 @@ This repository contains a set of GitHub Actions workflows to manage the develop
 
 [Click here for the full documentation on building tracks with this developer workflow.](https://docs.instruqt.com/how-to-guides/build-tracks/maintain-a-developer-workflow#developer-workflow)
 
+> [!WARNING]
+> This repository is designed as a template for your own track repositories. We do not actively maintain the contents of this repository, so it's possible that you may encounter bugs or issues with these workflows. In general we recommend users evaluate each of the workflows and actions and customize to their needs. Our documentation via https://docs.instruqt.com/ will always be up to date and can give reference to what each command in the workflow does.
+
 ## Developer Workflow
 From the repository that contains your Instruqt tracks:
 1. Create a new branch by selecting **Main > View all branches > New branch.**
