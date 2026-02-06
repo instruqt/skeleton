@@ -3,14 +3,14 @@
 
 This repository contains a set of GitHub Actions workflows to manage the development of your Instruqt tracks. 
 
-[Click here for the full documentation on building tracks with this developer workflow.](https://docs.instruqt.com/how-to-guides/build-tracks/maintain-a-developer-workflow#developer-workflow)
-
 > [!NOTE]
 > This repository is provided as a template for building your own track repositories. The workflows and actions included here are examples only and are not actively maintained, so they may become outdated or contain issues.
 >
 > We recommend reviewing and customizing each workflow to suit your needs. For the most accurate and up-to-date guidance on GitHub Actions, refer to [GitHub’s official documentation](https://docs.github.com/actions).
 >
 > [Instruqt’s documentation](https://docs.instruqt.com/) explains how the Instruqt-specific commands used in these workflows work, but should not be treated as a general reference for GitHub Actions themselves.
+
+[Click here for the full documentation on building tracks with this developer workflow.](https://docs.instruqt.com/how-to-guides/build-tracks/maintain-a-developer-workflow#developer-workflow)
 
 ## Developer Workflow
 From the repository that contains your Instruqt tracks:
